@@ -1,0 +1,18 @@
+/*
+    Jason Project
+
+    -- created on November 10, 2010
+*/
+
+MAS jelevator {
+infrastructure: Centralised
+
+   environment: au.edu.rmit.elevator.ServerEnvironment
+   
+   agents:
+       simulator;
+       //car_driver;
+       coordinator;
+
+   aslSourcePath: "src/asl"; 
+}
