@@ -1,0 +1,29 @@
+Future Features for Consideration
+=================================
+
+Make a prettier icon.
+
+Give the CarController complete information about the destination of each
+request.  This would imply, in the real world, that rather than having up
+and down buttons, there would actually be a panel to request a specific
+floor.
+
+More complicated building models where only some elevators have access to
+some floors.  This would allow the user to configure buildings with banks
+of elevators, for example a bank that goes from 1 - 6 and one that goes
+from 7 - 12.  Or access restricted floors that only one elevator can go
+to.  This would require some refactoring of Person (and other model
+elements) so Person knows that whether the elevator will go to the right
+place or how to transfer between elevators to reach a destination.
+
+An ability to save simulation configurations.  Ultimately, a simulation editor
+would be needed to support very complex simulations.
+
+An ability to save statistics from each run in CSV or some other format
+that would allow graphing or analysis.
+
+Real-time updates to the statistics.
+
+[William wants us to add people to the simulation who try to take the
+wrong elevator and smack themselves in the forehead when they get on.
+Fat chance.]

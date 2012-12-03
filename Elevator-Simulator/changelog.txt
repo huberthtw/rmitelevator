@@ -1,0 +1,267 @@
+2005-12-10 Neil + Chris
+- Well, that broke the streak.
+- Moved ExeptionDialog into org.intranet.ui to make it generally available to
+  the UI.
+- Updated constructor for ExceptionDialog so the public method takes a Window
+  instead of a Frame or Dialog.
+- Catch exception in InputPanel when applying parameters.
+- Catch exception in MultipleSimulationArea.startSimulation when Simulator is
+  initialized.
+- Added getCapacity to Location.
+- Improved the exception message when a Person moves into a Location that is
+  at capacity.
+- Prepared the 0.4 release.
+
+2005-11-19 Chris + Neil
+- Omigod, two weekends in a row.  You'd think neither of us were working
+  overtime.
+- Changed ResultsCheck.java to make a test run in seconds instead of hours.
+- Implemented the ability to average results over a single multi-value
+  parameter.  Files changed included MultipleSimulationArea.java,
+  ResultsGrid.java, ResultsSelection.java, ValueSelector.java.  Added
+  AverageNumber.java.
+
+2005-11-12 Neil + Chris
+- Changed CarEntrance.chooseSomeoneFromList to also check door state when
+  determining if the door is available.
+- Moved waitToEnterDoor() from leaveCar to waitToEnterDoor in Person to prevent
+  a Person from entering the car before the doors have fully opened.  This also
+  ensures that people leave the car before others get on.
+- Changed Person.tryToEnterCar to check all entrances and to check both that
+  the door is obstructed and that people may be waiting before deciding to
+  push the button again.  This solves an issue with buttons being pressed when
+  a car has already arrived and is exchanging passengers.
+
+2005-09-10 Chris + Neil
+- Removed circularity between CarRequestPanel and CarEntrance.
+- Added animation of person entering and leaving a car.
+- Added waitToEnterDoor to CarEntrance.  This may eventually be the main
+  mechanism for specifying the order of who enters and exits the car.
+
+2005-07-16 Neil + Chris
+- Implemented sensorObstructed() in CarEntrance and updated Door.open() to work
+  correctly when transitioning from CLOSING.
+- Added toString() to DoorSensor.State.
+- Updated Person to continue waiting if he can't enter the Car immediately.
+- Refactored Person to enter any car that is open, unobstructed, and not at
+  capacity.
+- Percolated knowledge of CarEntrance to CarRequestPanel for arrivedUp and
+  arrivedDown methods.
+
+2005-06-04 Neil
+- Upgraded TODO in ResultsSelection to SOON.
+- Updated HTML in Car, Door, DoorSensor, MovableLocation, and Person to be
+  well formed XHTML.
+
+2005-06-04 Chris + Neil
+- Add a javadoc target to build.xml
+- Add state documentation to Person, Door, MovableLocation, and Car.
+- Add state documentation to DoorSensor.
+- Move the responsibility for closing doors from the Door to the CarEntrance
+  in coordination with the DoorSensor.  Added simple code for People to trigger
+  DoorSensors.
+
+2005-05-28 Neil + Chris
+- Modified MetaController.findBestCar() to compare the total distance travelled
+  by the car (to date) in order to break ties in the cost comparison.  This
+  partially solves the problem of cars not being selected if they're at the
+  extreme ends of the travel cycle during Morning or Evening simulations.
+- Added capacity to Location and, therefore, Floors and Cars.  Floors defaults
+  to a large value now.  Car capacity can be set through the Building
+  constructor.  Added this parameter to RandomElevatorSimulator.
+- Fixed a bug with CarController.arrive() where a direction change would result
+  in the wrong direction light coming on.
+- Updated ChangeDirectionTest to account for new parameters in
+  RandomElevatorSimulator.  Updated ResultsCheck so that
+  testRandomElevatorSimulator runs successfully and also faster.  Changed the
+  error output in MovableLocation to use System.err instead of System.out.
+
+2005-05-14 Chris + Neil
+- Refactor the ClockDisplay formatting.  Create a Duration class for the logic
+  to go into.
+- Add to the Clock a FeedbackListener that is authoritatively able to dispute
+  the incrementing of the time.  See Simulator's Clock.FeedbackListener.
+- Changed Event.EventTimeComparator to deal better with large time differences
+  by not casting the difference of longs to an int.
+- Moved Car.Listener creation from the Controller implementations to the
+  Building.  Added arrive() and setNextDestination() to Controller interface
+  to retain parts of the old Car.Listener implementations.
+
+2005-05-07 Chris
+- Rogue change: format the ClockDisplay as 00:00:00.000.
+
+2005-05-07 Neil + Chris
+- Fixed build.xml to include icon.gif in the resulting jar file. (leeson)
+- Fixed CarController's docked() implementation to properly switch directions
+  at the turn around points and switch the entrance lights correctly. (leeson)
+- Minor refactoring of Building.getStatistics().
+- Added a Time Factor to the user interface that affects the speed of real-
+  time simulations.
+- Refactored RealTimeClock to adhere to an ideal real-time interval and treat
+  the simulation time in direct proportion to the ideal real-time interval.
+
+2005-04-23 Chris + Neil
+- Renamed RequestIndicator to CarRequestPanel to reduce confusion with
+  FloorRequestPanel.
+- Fixed deadlock issue between the AWT event queue and the simulation event
+  processor on updateStatistics() in org.intranet.sim.ui.realtime.Statistics.
+- Improved SimpleController.
+
+2005-04-09 Neil + Chris
+- Fixed selection of the controller as a primary or secondary variable in the
+  results.
+- Fixed spinner of controllers as tertiary variable in the results.
+- Created a SimpleController that runs the elevators up and down, stopping on
+  each floor.
+- Fixed SingleValueInputPanel to retrieve the actual value from ChoiceParameter
+  instead of the String value.
+
+2005-04-02 Chris + Neil
+- Added exceptions in FloorRequestPanel for requesting and fulfilling floors.
+- Made lots of changes to support being able to select a controller algorithm.
+  These are not currently visible to the user.
+
+2005-03-19 Neil + Chris
+- Moved all classes related to controlling the car into
+  org.intranet.elevator.model.operate.controller.
+- Added a MetaController class that manages the individual controllers.
+- Removed FloorRequest.  All associated functions moved to FloorRequestPanel.
+- Modified FloorContext to use its own copy of the floor list for sorting.
+
+2005-03-05 Chris + Neil
+- Fixed a bug where Float parameters for simulations would result in
+  a typecast error.  (leeson)
+- Fixed a bug in ResultsTable where a single result would be unreadable due
+  to a black fore- and background (leeson)
+- Added comments to CarController and FloorContext.
+- Change default for range parameters to not have a range.
+- Fix bugs with specifying fewer than two range parameters. (leeson)
+- Make display of the results table when there are fewer than two range
+  parameters look better.
+- Add icon for the application windows.
+
+2005-01-15 Neil + Chris
+- Created morning and evening traffic simulators
+- Refactored Simulator (and child classes) so ClockFactory isn't
+  passed in until the call to initialize().
+- Refactored ApplicationUI to handle both real-time and multiple
+  simulations
+- Updated todo and readme for 0.3 release.
+
+2005-01-07 Chris + Neil
+- Finished refactoring of Car by moving logic for moving the car into
+  a separate abstract MovableLocation class
+- Added ability to redisplay the ResultsTable automatically whenever
+  a variable selection is changed.
+- Prioritized work for release: real-time vs multiple and create simulators.
+  All other tasks will be done in future releases.
+
+2004-12-23 Neil + Chris
+- Refactored CarState and Car (and users of Car) to remove explicit case
+  analysis of Car.State
+- Removed unnecessary type casts
+
+2004-12-18 Chris + Neil
+- Moved code from Car to FloorRequestPanel
+
+2004-12-11 Neil + Chris
+- Created TestCar and wrote test cases for state transitions
+- Refactored Car to move the floor requests and related methods to
+  a new class called FloorRequestPanel
+
+2004-12-09 Chris
+- Added vertical label for ResultsTable
+
+2004-12-04 Chris + Neil
+- Checked the actual stats against the stats being reported here; found a
+  problem with MultipleSimulationApplication's endTime, expanded it to a large
+  value and added a TODO to reevaluate it later.
+- Improved some logging in CarAssignments
+- Fix the state handling of car when IDLE to dock() if it is already at
+  the destination.
+- Refactor out ValueSelector from ResultsSelection in sim.ui.multiple
+
+2004-11-20 Neil + Chris
+- Minor bug fixes (done by Chris) dealing with casting to Float instead of
+  Number
+- Minor bug fix to SelectionListener to handle "outside" selections (no row or
+  no column)
+- Refactored org.intranet.sim.ui to include two new packages: multiple and
+  realtime
+- Added launch of real-time sim from table of results
+- Added row headers to the results table
+- Added labels to the top and side of the table
+- Refactored org.intranet.sim to make two new packages: event and clock
+
+2004-11-13 Chris + Neil
+- Clean up compile "problems"/warnings
+- Refactor ResultsTable once again to create a ResultsGrid that contains
+  the results and can provide the parameters that made the results
+- Refactor ResultsSelection to have no dependency on ResultsTable.
+- Move connection between ResultsSelection and ResultsTable into
+  MultipleSimulationArea
+
+2004-11-06 Neil + Chris
+- refactored ResultsTable to break up the constructor for readability
+- added color to the table cells in ResultsTable
+- added ValueSelector class to componentize the spinner/label behaviour
+- fixed behaviour between choosers & value selectors
+
+2004-08-15 Chris + Neil
+- refactored the layout of the ResultsSelection area
+- created a table to display the generated results
+- refactored the selection of the Statistics Variable from a String to
+  StatisticVariable
+
+2004-07-25 Neil + Chris
+- Created new ResultsSelection class to manage behaviour of center panel in
+  MultipleSimulationArea.
+- Moved the majority of the center panel code in MultipleSimulationArea to
+  ResultSelection.
+- Added trigger behaviour to the secondary variable chooser to update the list
+  based on the primary variable selection.
+- Added default spinners with appropriate values based on the range parameter
+  selections.
+
+2004-07-18 Chris + Neil
+- Finish fixing bug found when testing 10 floors/1 elevator/18 people dealing
+  with finding the nearest floor the car can stop at
+- Begin adding code to deal with summaries of statistics results
+
+2004-07-11 Neil+Chris
+- Implemented an error dialog that reports the parameters for the simulation that
+  errored and the exception that was generated.
+
+2004-06-19 Chris + Neil
+- Implemented RangeParameters and UI on MultiSimulationArea and InputPanel
+- Created an Iterator<List<Parameter>> which is created from List<RangeParameters>
+- Set up a new ClockFactory/Clock, refactor Simulators to only use the
+  passed-in ClockFactory.
+
+2004-06-13 Neil + Chris
+- Separated EventList inner class from SimulationArea out to EventQueueDisplay.
+- Added synchronization around the pause button.
+- Began creating a mulitple simulation application beside the elevator simulator
+  for running sets of simulations for analysis.
+
+2004-06-06 Neil + Chris
+- Refactored the model.
+- Created a new package: model.operate
+- Moved Assignment, Building, CarAssignments, CarController, FloorContext,
+  Direction, and Person into model.operate
+- Changed protection levels on a number of classes and methods to facilitate
+  access from model.operate to model.
+- Moved AssignmentTest and CarAssignmentsTest to the new package.
+- Updated ModelTests to use the new package.
+- Refactored Building to extract the RequestIndicator.ButtonListener anonymous
+  class out to a new CarRequest class.  Building is just a factory now.
+
+2004-05-30 Chris + Neil
+- Make Clock abstract
+- Make a RealTimeClock
+- Make a ClockFactory
+- Refactor Simulator (and children) to use ClockFactory
+- Modify how EventQueue works to update TrackingUpdateEvents before processing
+  an event.
+- Create and update a couple tests.
+- Fix problems with missed repaints on event list.
