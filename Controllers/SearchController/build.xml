@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+
+<project name="elevatorsim" default="jar">
+
+<target name="jar" depends="compile">
+	<mkdir dir="../build/jars"/>
+	<jar jarfile="../build/jars/elevatorsim.jar">
+	 	<fileset includes="**/*.class" dir="../build/class/app" />
+	 	<fileset includes="lgpl.txt" dir="." />
+		<fileset includes="**/*.gif" dir="src/app" />
+		<manifest>
+			<attribute name="Main-Class"
+			 value="org.intranet.elevator.ElevatorSimulationApplication"/>
+		</manifest>
+	</jar>
+</target>
+
+<target name="compile">
+	<mkdir dir="../build/class/app"/>
+	<javac target="1.4" srcdir="src/app" includes="**/*.java"
+	 destdir="../build/class/app"/>
+</target>
+
+<target name="doc">
+	<mkdir dir="../build/doc"/>
+	<javadoc
+		packagenames="org.intranet.*"
+		access="private"
+		author="false"
+		sourcepath="src/app"
+		destdir="../build/doc"
+		windowtitle="Elevator Simulator"
+		use="true">
+	</javadoc>
+</target>
+
+<target name="zipdoc" depends="doc">
+	<zip destfile="../build/doc.zip" basedir="../build/doc"/>
+</target>
+</project>
